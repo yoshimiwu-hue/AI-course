@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>線上學堂 - 課程總覽</title>
+    <title>AI 華語学習プログラム</title>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -48,77 +48,91 @@
             margin: 0;
         }
 
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+        /* 隱藏區塊用 */
+        .hidden {
+            display: none !important;
         }
 
-        .course-card {
+        /* 主選單四大卡片 */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
-        .course-card:hover {
+        .menu-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary-color);
         }
 
-        .course-content {
-            margin-bottom: 20px;
-        }
-
-        .course-badge {
-            display: inline-block;
-            background-color: #eff6ff;
-            color: var(--primary-color);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        .course-title {
-            font-size: 1.25rem;
-            font-weight: 700;
+        .menu-card h3 {
+            font-size: 1.15rem;
             color: var(--text-main);
-            margin: 0 0 10px 0;
-            line-height: 1.4;
-        }
-
-        .course-desc {
-            color: var(--text-sub);
-            font-size: 0.95rem;
-            line-height: 1.5;
             margin: 0;
         }
 
-        .btn {
-            display: block;
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            box-sizing: border-box;
-            transition: background-color 0.2s ease;
+        /* 24回清單網格 */
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
         }
 
-        .btn:hover {
-            background-color: var(--primary-hover);
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+
+        .lesson-card:hover {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* 返回按鈕 */
+        .back-btn {
+            background-color: #64748b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 25px;
+            transition: background-color 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #475569;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
         }
 
         footer {
@@ -133,39 +147,55 @@
 
     <div class="container">
         <header>
-            <h1>AI 課程專區</h1>
-            <p>請點選下方課程卡片進入對應的學習單元</p>
+            <h1>AI 華語学習プログラム</h1>
+            <p>学習したい項目を選択してください</p>
         </header>
 
-        <div class="course-grid">
-            <!-- 第 1 課 -->
-            <div class="course-card">
-                <div class="course-content">
-                    <span class="course-badge">Lesson 01</span>
-                    <h3 class="course-title">AI 基礎概論與環境設定</h3>
-                    <p class="course-desc">帶領您快速認識 AI 的基本原理，並完成線上學習環境與工具的註冊設定。</p>
-                </div>
-                <a href="https://example.com/course1" class="btn" target="_blank">前往上課</a>
+        <!-- 第一層：四大選擇主選單 -->
+        <div id="main-menu" class="menu-grid">
+            <div class="menu-card" onclick="showSection('preview')">
+                <h3>各課の予習</h3>
             </div>
-
-            <!-- 第 2 課 -->
-            <div class="course-card">
-                <div class="course-content">
-                    <span class="course-badge">Lesson 02</span>
-                    <h3 class="course-title">提示詞工程核心技巧</h3>
-                    <p class="course-desc">學習如何精準對話與下指令，引導 AI 產出最高品質的解答與內容。</p>
-                </div>
-                <a href="https://example.com/course2" class="btn" target="_blank">前往上課</a>
+            <div class="menu-card" onclick="showSection('review')">
+                <h3>各課の復習</h3>
             </div>
+            <div class="menu-card" onclick="showSection('exam')">
+                <h3>華語試験問題</h3>
+            </div>
+            <div class="menu-card" onclick="showSection('shadowing')">
+                <h3>シャドーイング練習</h3>
+            </div>
+        </div>
 
-            <!-- 第 3 課 -->
-            <div class="course-card">
-                <div class="course-content">
-                    <span class="course-badge">Lesson 03</span>
-                    <h3 class="course-title">自動化工作流程應用</h3>
-                    <p class="course-desc">結合各項實用工具，打造專屬自己的日常自動化幫手，大幅提升工作效率。</p>
-                </div>
-                <a href="https://example.com/course3" class="btn" target="_blank">前往上課</a>
+        <!-- 第二層：各課の予習 (1~24回) -->
+        <div id="section-preview" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← メニューに戻る</button>
+            <h2 class="section-title">各課の予習（全24回）</h2>
+            <div class="lessons-grid" id="preview-list"></div>
+        </div>
+
+        <!-- 第二層：各課の復習 (1~24回) -->
+        <div id="section-review" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← メニューに戻る</button>
+            <h2 class="section-title">各課の復習（全24回）</h2>
+            <div class="lessons-grid" id="review-list"></div>
+        </div>
+
+        <!-- 第二層：シャドーイング練習 (1~24回) -->
+        <div id="section-shadowing" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← メニューに戻る</button>
+            <h2 class="section-title">シャドーイング練習（全24回）</h2>
+            <div class="lessons-grid" id="shadowing-list"></div>
+        </div>
+
+        <!-- 第二層：華語試験問題 -->
+        <div id="section-exam" class="hidden">
+            <button class="back-btn" onclick="showMainMenu()">← メニューに戻る</button>
+            <h2 class="section-title">華語試験問題</h2>
+            <div class="lessons-grid">
+                <a href="#" class="lesson-card" target="_blank">模擬試験 01</a>
+                <a href="#" class="lesson-card" target="_blank">模擬試験 02</a>
+                <a href="#" class="lesson-card" target="_blank">模擬試験 03</a>
             </div>
         </div>
 
@@ -173,6 +203,46 @@
             &copy; 2026 AI-course. All rights reserved.
         </footer>
     </div>
+
+    <script>
+        // 自動生成 1 到 24 回的按鈕清單
+        function generateLessons(containerId, prefixUrl) {
+            const container = document.getElementById(containerId);
+            for (let i = 1; i <= 24; i++) {
+                const a = document.createElement('a');
+                a.href = `${prefixUrl}-lesson${i}.html`; // 這裡可以對應您的實際課程連結
+                a.className = 'lesson-card';
+                a.target = '_blank';
+                a.textContent = `第 ${i} 回`;
+                container.appendChild(a);
+            }
+        }
+
+        // 初始化 24 回清單
+        generateLessons('preview-list', 'preview');
+        generateLessons('review-list', 'review');
+        generateLessons('shadowing-list', 'shadowing');
+
+        // 畫面切換邏輯
+        function showSection(sectionName) {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('section-preview').classList.add('hidden');
+            document.getElementById('section-review').classList.add('hidden');
+            document.getElementById('section-shadowing').classList.add('hidden');
+            document.getElementById('section-exam').classList.add('hidden');
+
+            document.getElementById(`section-${sectionName}`).classList.remove('hidden');
+        }
+
+        function showMainMenu() {
+            document.getElementById('section-preview').classList.add('hidden');
+            document.getElementById('section-review').classList.add('hidden');
+            document.getElementById('section-shadowing').classList.add('hidden');
+            document.getElementById('section-exam').classList.add('hidden');
+            
+            document.getElementById('main-menu').classList.remove('hidden');
+        }
+    </script>
 
 </body>
 </html>
